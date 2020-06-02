@@ -13,7 +13,7 @@ OBJDUMP = $(BINDIR)/$(ADDNAME)objdump
 RANLIB = $(BINDIR)/$(ADDNAME)ranlib
 STRIP = $(BINDIR)/$(ADDNAME)strip
 
-H8WRITE = ../tools/kz_h8write
+H8WRITE = ../tools/kz_h8write.exe
 
 # FreeBSD=4.x:/dev/cuaaX, FreeBSD-6.x:/dev/cuardX, FreeBSD(USB):/dev/cuaUx
 # Linux:/dev/ttySx, Linux(USB):/dev/ttyUSBx, Windows:comX
@@ -29,8 +29,9 @@ CFLAGS += -I.
 CFLAGS += -Os
 CFLAGS += -DKZLOAD
 LFLAGS = -static -T ld.scr -L.
-SRCS=$(wildcard *.c)
-OBJS=$(SRCS:.c=.o)
+
+OBJS = vector.o startup.o main.o
+OBJS += lib.o serial.o
 
 .SUFFIXES: .c .o
 .SUFFIXES: .s .o
