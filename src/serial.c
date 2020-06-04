@@ -54,6 +54,8 @@ struct h8_3069f_sci {
 #define H8_3069F_SCI_SSR_RDRF (1 << 6)
 #define H8_3069F_SCI_SSR_TDRE (1 << 7)
 
+// three canel
+// http://www.picosystems.net/dl/ds/device/HD64F3069.pdf#%5B%7B%22num%22%3A1639%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C-189%2C890%2C1%5D
 static struct {
   volatile struct h8_3069f_sci *sci;
 } regs[SERIAL_SCI_NUM] = {
@@ -75,7 +77,7 @@ int serial_init(int idx) {
 
 int serial_is_send_enable(int idx) {
   volatile struct h8_3069f_sci *sci = regs[idx].sci;
-  return (sci->ssr & H8_3069F_SCI_SSR_TDRE);
+  return (sci->ssr & H8_3069F_SCI_SSR_TDRE); // http://www.picosystems.net/dl/ds/device/HD64F3069.pdf#%5B%7B%22num%22%3A1687%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C-189%2C890%2C1%5D
 }
 
 int serial_send_byte(int idx, unsigned char c) {
@@ -83,7 +85,7 @@ int serial_send_byte(int idx, unsigned char c) {
   while (!serial_is_send_enable(idx))
     ;
   sci->tdr = c;
-  sci->ssr &= ~H8_3069F_SCI_SSR_TDRE;
+  sci->ssr &= ~H8_3069F_SCI_SSR_TDRE; // TODO: memo
 
   return 0;
 }
