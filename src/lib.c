@@ -39,3 +39,42 @@ int memcmp(const void *b1, const void *b2, long len) {
   }
   return 0;
 }
+
+int strlen(const char *s) {
+  int len;
+  for (len = 0; *s; s++, len++)
+    ;
+  return len;
+}
+
+char *strcpy(char *dst, const char *src) {
+  char *d = dst;
+  for (const char *s = src;; dst++, s++) {
+    *dst = *s;
+    if (!s)
+      break;
+  }
+  return d;
+}
+
+int strcmp(const char *s1, const char *s2) {
+  while (*s1 || *s2) {
+    if (*s1 != *s2)
+      return (*s1 > *s2) ? 1 : -1;
+    s1++;
+    s2++;
+  }
+  return 0;
+}
+
+int strncmp(char *s1, const char *s2, int len) {
+  int l = len;
+  while ((*s1 || *s2) && (l > 0)) {
+    if (*s1 != *s2)
+      return (*s1 > *s2) ? 1 : -1;
+    s1++;
+    s2++;
+    l--;
+  }
+  return 0;
+}
