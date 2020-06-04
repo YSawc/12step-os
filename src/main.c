@@ -5,7 +5,7 @@
 int main() {
   serial_init(SERIAL_DEFAULT_DEVICE);
 
-  puts((unsigned char *)"Hello world!\n");
+  _puts((unsigned char *)"Hello world!\n");
 
   while (1) // roop while
     ;
