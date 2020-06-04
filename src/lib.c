@@ -8,8 +8,8 @@ int putc(unsigned char c) {
   return serial_send_byte(SERIAL_DEFAULT_DEVICE, c);
 }
 
-int puts(unsigned char *str) {
-  while (*str)
-    putc(*(str++));
+int puts(unsigned char *s) {
+  while (*s)
+    putc(*(s++));
   return 0;
 }

@@ -81,7 +81,8 @@ int serial_is_send_enable(int idx) {
 int serial_send_byte(int idx, unsigned char c) {
   volatile struct h8_3069f_sci *sci = regs[idx].sci;
   while (!serial_is_send_enable(idx))
-    sci->tdr = c;
+    ;
+  sci->tdr = c;
   sci->ssr &= ~H8_3069F_SCI_SSR_TDRE;
 
   return 0;
