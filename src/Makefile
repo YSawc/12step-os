@@ -13,7 +13,7 @@ OBJDUMP = $(BINDIR)/$(ADDNAME)objdump
 RANLIB = $(BINDIR)/$(ADDNAME)ranlib
 STRIP = $(BINDIR)/$(ADDNAME)strip
 
-H8WRITE = ../tools/kz_h8write.exe
+H8WRITE = ../tools/kz_h8write
 
 # FreeBSD=4.x:/dev/cuaaX, FreeBSD-6.x:/dev/cuardX, FreeBSD(USB):/dev/cuaUx
 # Linux:/dev/ttySx, Linux(USB):/dev/ttyUSBx, Windows:comX
