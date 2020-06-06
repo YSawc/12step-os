@@ -22,7 +22,7 @@ SECTIONS {
 	.text : {
 		_text_start = . ;
 		*(.text)
-		Etext = . ;
+		_etext = . ;
 	} > rom
 
 	.rodata : {

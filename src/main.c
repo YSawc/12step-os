@@ -13,7 +13,7 @@ void init_static_region() {
 }
 
 int main() {
-  /* init_static_region(); */
+  init_static_region();
 
   _puts((unsigned char *)"Hello world!\n");
 
