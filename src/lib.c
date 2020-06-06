@@ -43,6 +43,13 @@ int util_puts(unsigned char *s, unsigned long value, int column) {
   return 0;
 }
 
+void icmp_(int i, int e) {
+  i = e;
+  if (i != e)
+    while (1)
+      ;
+}
+
 void *_memset(void *b, int c, long len) {
   char *p;
   for (p = b; len > 0; len--)
