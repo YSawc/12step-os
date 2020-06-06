@@ -12,10 +12,30 @@ void init_static_region() {
   serial_init(SERIAL_DEFAULT_DEVICE);
 }
 
+int global_data = 0x10;
+int global_bss;
+static int static_data = 0x20;
+static int static_bss;
+
+static void printval(void) {
+  util_puts((unsigned char *)"global_data = ", global_data, 0);
+  util_puts((unsigned char *)"global_bss = ", global_bss, 0);
+  util_puts((unsigned char *)"static_data = ", static_data, 0);
+  util_puts((unsigned char *)"static_bss = ", static_bss, 0);
+}
+
 int main() {
   init_static_region();
 
-  _puts((unsigned char *)"Hello world!\n");
+  puts((unsigned char *)"Hello world!\n");
+  printval();
+
+  puts((unsigned char *)"Overwrite variables.\n");
+  global_data = 0x20;
+  global_bss = 0x30;
+  static_data = 0x40;
+  static_bss = 0x50;
+  printval();
 
   while (1)
     ;

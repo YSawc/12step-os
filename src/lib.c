@@ -8,7 +8,7 @@ int _putc(unsigned char c) {
   return serial_send_byte(SERIAL_DEFAULT_DEVICE, c);
 }
 
-int _puts(unsigned char *s) {
+int puts(unsigned char *s) {
   while (*s)
     _putc(*(s++));
   return 0;
@@ -31,7 +31,15 @@ int putxval(unsigned long value, int column) {
       column--;
   }
 
-  _puts(p + 1);
+  puts(p + 1);
+  puts((unsigned char *)"\n");
+
+  return 0;
+}
+
+int util_puts(unsigned char *s, unsigned long value, int column) {
+  puts(s);
+  putxval(value, column);
   return 0;
 }
 

@@ -2,8 +2,9 @@
 #define _LIB_H_INCLUDED_
 
 int _putc(unsigned char c);
-int _puts(unsigned char *s);
-int _putxval(unsigned long value, int column);
+int puts(unsigned char *s);
+int putxval(unsigned long value, int column);
+int util_puts(unsigned char *s, unsigned long value, int column);
 void *_memset(void *b, int c, long len);
 void *_memcpy(void *dst, const void *str, long len);
 int _memcmp(const void *b1, const void *b2, long len);
