@@ -44,10 +44,12 @@ int util_puts(unsigned char *s, unsigned long value, int column) {
 }
 
 void icmp_(int i, int e) {
-  i = e;
-  if (i != e)
+  if (i != e) {
+    util_puts((unsigned char *)"expected: ", i, 0);
+    util_puts((unsigned char *)"but got: ", e, 0);
     while (1)
       ;
+  }
 }
 
 void *_memset(void *b, int c, long len) {

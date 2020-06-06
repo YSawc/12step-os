@@ -31,10 +31,14 @@ int main() {
   printval();
 
   puts((unsigned char *)"Overwrite variables.\n");
+  global_data = 0x20;
   icmp_(global_data, 0x20);
+  global_bss= 0x30;
   icmp_(global_bss, 0x30);
+  static_data= 0x40;
   icmp_(static_data, 0x40);
-  icmp_(global_bss, 0x50);
+  static_bss = 0x50;
+  icmp_(static_bss, 0x50);
   printval();
 
   while (1)
