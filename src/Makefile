@@ -31,7 +31,7 @@ CFLAGS += -DKZLOAD
 LFLAGS = -static -T ld.scr -L.
 
 OBJS = vector.o startup.o main.o
-OBJS += lib.o serial.o
+OBJS += lib.o serial.o xmodem.o
 
 .SUFFIXES: .c .o
 .SUFFIXES: .s .o

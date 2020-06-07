@@ -77,7 +77,8 @@ int serial_init(int idx) {
 
 int serial_is_send_enable(int idx) {
   volatile struct h8_3069f_sci *sci = regs[idx].sci;
-  return (sci->ssr & H8_3069F_SCI_SSR_TDRE); // http://www.picosystems.net/dl/ds/device/HD64F3069.pdf#%5B%7B%22num%22%3A1687%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C-189%2C890%2C1%5D
+  return (sci->ssr & H8_3069F_SCI_SSR_TDRE);
+  // http://www.picosystems.net/dl/ds/device/HD64F3069.pdf#%5B%7B%22num%22%3A1687%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C-189%2C890%2C1%5D
 }
 
 int serial_send_byte(int idx, unsigned char c) {
@@ -88,4 +89,22 @@ int serial_send_byte(int idx, unsigned char c) {
   sci->ssr &= ~H8_3069F_SCI_SSR_TDRE; // TODO: memo
 
   return 0;
+}
+
+int serial_is_recv_enable(int idx) {
+  volatile struct h8_3069f_sci *sci = regs[idx].sci;
+  return (sci->ssr & H8_3069F_SCI_SSR_RDRF);
+}
+
+unsigned char serial_recv_byte(int idx) {
+  volatile struct h8_3069f_sci *sci = regs[idx].sci;
+  unsigned char c;
+
+  while (!serial_is_recv_enable(idx))
+    ;
+  c = sci->rdr;
+  // ssr :
+  // http://www.picosystems.net/dl/ds/device/HD64F3069.pdf#%5B%7B%22num%22%3A1687%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C-189%2C890%2C1%5D
+  sci->ssr &= ~H8_3069F_SCI_SSR_RDRF;
+  return c;
 }

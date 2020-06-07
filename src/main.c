@@ -1,8 +1,9 @@
 #include "defines.h"
 #include "lib.h"
 #include "serial.h"
+#include "xmodem.h"
 
-void init_static_region() {
+static void init_static_region() {
   extern int erodata, data_start, edata, bss_start, ebss;
 
   // copy rom data to ram data for static variables.
@@ -24,25 +25,67 @@ static void printval(void) {
   util_puts((unsigned char *)"static_bss = ", static_bss, 0);
 }
 
+static int dump(char *buf, long size) {
+
+  if (size < 0) {
+    puts((unsigned char *)"no data.\n");
+    return -1;
+  }
+
+  long i;
+  for (i = 0; i < size; i++) {
+    putxval(buf[i], 2);
+    if ((i & 0xf) == 15) {
+      puts((unsigned char *)"\n");
+    } else {
+      if ((i & 0xf) == 7)
+        puts((unsigned char *)" ");
+      puts((unsigned char *)" ");
+    }
+  }
+  puts((unsigned char *)"\n");
+
+  return 0;
+}
+
+static void wait() {
+  volatile long i;
+  for (i = 0; i < 300000; i++)
+    ;
+}
+
 int main() {
+
+  static char buf[16];
+  static long size = -1;
+  static unsigned char *loadbuf = NULL;
+  extern int buffer_start;
+
   init_static_region();
 
-  puts((unsigned char *)"Hello world!\n");
-  printval();
+  puts((unsigned char *)"bootloader started\n");
 
-  puts((unsigned char *)"Overwrite variables.\n");
-  global_data = 0x20;
-  icmp_(global_data, 0x20);
-  global_bss= 0x30;
-  icmp_(global_bss, 0x30);
-  static_data= 0x40;
-  icmp_(static_data, 0x40);
-  static_bss = 0x50;
-  icmp_(static_bss, 0x50);
-  printval();
+  while (1) {
+    puts((unsigned char *)"> ");
+    gets((unsigned char *)buf);
 
-  while (1)
-    ;
+    if (!_strcmp(buf, "load")) {
+      loadbuf = (unsigned char *)(&buffer_start);
+      size = xmodem_recv((char *)loadbuf);
+      wait();
+      if (size < 0) {
+        puts((unsigned char *)"\nXMODEM receive error!\n");
+      } else {
+        puts((unsigned char *)"\nXMODEM receive succeeded!\n");
+      }
+    } else if (!_strcmp(buf, "dump")) {
+      util_puts((unsigned char *)"size: ", size, 0);
+      puts((unsigned char *)"\n");
+      dump((char *)loadbuf, size);
+    } else {
+      puts((unsigned char *)"unknown.\n");
+    }
+  }
 
   return 0;
 }

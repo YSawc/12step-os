@@ -2,7 +2,9 @@
 #define _LIB_H_INCLUDED_
 
 int _putc(unsigned char c);
+unsigned char getc(void);
 int puts(unsigned char *s);
+int gets(unsigned char *buf);
 int putxval(unsigned long value, int column);
 int util_puts(unsigned char *s, unsigned long value, int column);
 void icmp_(int i, int e);
