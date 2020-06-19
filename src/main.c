@@ -1,4 +1,5 @@
 #include "defines.h"
+#include "elf.h"
 #include "lib.h"
 #include "serial.h"
 #include "xmodem.h"
@@ -82,6 +83,8 @@ int main() {
       util_puts((unsigned char *)"size: ", size, 0);
       puts((unsigned char *)"\n");
       dump((char *)loadbuf, size);
+    } else if (!_strcmp(buf, "run")) {
+      elf_load((char *)loadbuf);
     } else {
       puts((unsigned char *)"unknown.\n");
     }
