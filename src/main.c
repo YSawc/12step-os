@@ -21,9 +21,13 @@ static int static_bss;
 
 static void printval(void) {
   util_puts((unsigned char *)"global_data = ", global_data, 0);
+  puts((unsigned char *)"\n");
   util_puts((unsigned char *)"global_bss = ", global_bss, 0);
+  puts((unsigned char *)"\n");
   util_puts((unsigned char *)"static_data = ", static_data, 0);
+  puts((unsigned char *)"\n");
   util_puts((unsigned char *)"static_bss = ", static_bss, 0);
+  puts((unsigned char *)"\n");
 }
 
 static int dump(char *buf, long size) {
@@ -79,6 +83,16 @@ int main() {
       } else {
         puts((unsigned char *)"\nXMODEM receive succeeded!\n");
       }
+    } else if (!_strcmp(buf, "test")) {
+      printval();
+      puts((unsigned char *)"global_data comparison started\n");
+      icmp_(global_data, 0x10);
+      puts((unsigned char *)"global_bss comparison started\n");
+      icmp_(global_bss, 0x30);
+      puts((unsigned char *)"static_data comparison started\n");
+      icmp_(static_data, 0x20);
+      puts((unsigned char *)"static_bss comparison started\n");
+      icmp_(static_bss, 0x50);
     } else if (!_strcmp(buf, "dump")) {
       util_puts((unsigned char *)"size: ", size, 0);
       puts((unsigned char *)"\n");
