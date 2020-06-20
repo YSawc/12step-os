@@ -85,12 +85,16 @@ int main() {
       }
     } else if (!_strcmp(buf, "test")) {
       printval();
+      global_data = 0x10;
       puts((unsigned char *)"global_data comparison started\n");
       icmp_(global_data, 0x10);
+      global_bss = 0x30;
       puts((unsigned char *)"global_bss comparison started\n");
       icmp_(global_bss, 0x30);
+      static_data = 0x20;
       puts((unsigned char *)"static_data comparison started\n");
       icmp_(static_data, 0x20);
+      static_bss = 0x50;
       puts((unsigned char *)"static_bss comparison started\n");
       icmp_(static_bss, 0x50);
     } else if (!_strcmp(buf, "dump")) {
