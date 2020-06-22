@@ -2,6 +2,7 @@
 #include "defines.h"
 #include "lib.h"
 
+/* ELF header of 32bit: https://wiki.osdev.org/ELF#Header */
 struct elf_header {
   struct {
     unsigned char magic[4];
@@ -11,7 +12,7 @@ struct elf_header {
     unsigned char abi;
     unsigned char abi_version;
     unsigned char reserve[7];
-  } id;
+  } id; // front of header
 
   short type;
   short arch;
@@ -28,6 +29,7 @@ struct elf_header {
   short section_name_index;
 };
 
+/* https://wiki.osdev.org/ELF#Program_header */
 struct elf_program_header {
   long type;
   long offset;
@@ -52,6 +54,8 @@ static int elf_check(struct elf_header *header) {
       header->id.version != 1 || header->type != 2 || header->version != 1)
     return -1;
 
+  /* https://web.stanford.edu/~ouster/cgi-bin/cs140-winter16/pintos/specs/sysv-abi-update.html/ch4.eheader.html
+   */
   if ((header->arch != 46) && (header->arch != 47))
     return -1;
 
